@@ -30,6 +30,8 @@ class HomePLAY(HomePLAYTemplate):
     game_id_entered = self.check_gameID.text
     games_info = anvil.server.call('get_entered_game', game_id_entered)
     game_id = games_info['game_id']
+    # get fill_roles .....
+    self.radio_button_us.enabled = False
     
     """This method is called when the button is clicked"""
     self.take_role_card.visible = True
