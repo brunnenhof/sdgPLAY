@@ -1,5 +1,28 @@
 components:
-- components: []
+- components:
+  - components:
+    - event_bindings: {click: join_new_game_click}
+      layout_properties: {grid_position: 'IIJVUA,ZBPTQI'}
+      name: join_new_game
+      properties: {background: 'theme:Secondary Container', bold: true, foreground: 'theme:Primary', role: elevated-button, text: Join a game}
+      type: Button
+    layout_properties: {grid_position: 'AJRXYF,ATHMKT'}
+    name: start_up
+    properties: {role: outlined-card}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'RWIVKD,QXFIPE'}
+    name: enter_gameID
+    properties: {}
+    type: Label
+  - layout_properties: {grid_position: 'RWIVKD,GOBLOW'}
+    name: outlined_1
+    properties: {role: outlined}
+    type: TextBox
+  - layout_properties: {grid_position: 'PNPISE,XUMSPD'}
+    name: outlined_button_1
+    properties: {role: outlined-button, text: outlined_button_1}
+    type: Button
+  data_bindings: []
   layout_properties: {slot: default}
   name: content_panel
   properties: {col_widths: '{}'}

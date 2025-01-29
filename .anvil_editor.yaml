@@ -6,4 +6,5 @@ unique_ids:
     HomePLAY: BX4LAZSCJTH5L2YSLWB4GYB6QBL4AR5A
   modules: {}
   scripts: {}
-  server_modules: {}
+  server_modules:
+    ServerModule1: '173815858790982552920055.8357'
