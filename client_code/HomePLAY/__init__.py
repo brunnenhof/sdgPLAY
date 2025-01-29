@@ -13,5 +13,11 @@ class HomePLAY(HomePLAYTemplate):
   def join_new_game_click(self, **event_args):
     """This method is called when the button is clicked"""
     games_info = anvil.server.call('get_latest_game')
-    print(games_info)
-    pass
+    game_id = games_info['game_id']
+    npbhp = games_info['npbhp']
+    if not npbhp == '[]':
+      a = npbhp.replace("['", '')
+      a = a.replace("']", '')
+      a = a.replace("', '", ' ')
+      npbhp = a.split(' ')
+    return game_id, npbhp
