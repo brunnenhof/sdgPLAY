@@ -12,7 +12,7 @@ def connect():
   return connection
 
 @anvil.server.callable
-def get_latest_game(name):
+def get_latest_game():
   conn = connect()
   with conn.cursor() as cur:
     cur.execute("SELECT * FROM games_info")
