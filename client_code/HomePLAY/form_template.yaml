@@ -38,11 +38,13 @@ components:
       properties: {background: 'theme:Secondary Container', bold: true, foreground: 'theme:Primary', text: 'First, select your region ...'}
       type: Label
     - data_bindings: []
+      event_bindings: {clicked: radio_button_us_clicked}
       layout_properties: {grid_position: 'TBSGEZ,IUBYMK PCRSHQ,FGVJRD'}
       name: radio_button_us
       properties: {enabled: true, group_name: regs, spacing_above: none, spacing_below: none, text: USA}
       type: RadioButton
-    - layout_properties: {grid_position: 'TBSGEZ,IUBYMK MYFPTQ,LPFOWO'}
+    - event_bindings: {clicked: radio_button_af_clicked}
+      layout_properties: {grid_position: 'TBSGEZ,IUBYMK MYFPTQ,LPFOWO'}
       name: radio_button_af
       properties: {group_name: regs, spacing_above: none, spacing_below: none, text: 'Africa, South of Sahara'}
       type: RadioButton
@@ -51,27 +53,33 @@ components:
       name: radio_button_cn
       properties: {group_name: regs, spacing_above: none, spacing_below: none, text: China}
       type: RadioButton
-    - layout_properties: {grid_position: 'TBSGEZ,IUBYMK VGIDBU,HIFTQV'}
+    - event_bindings: {clicked: radio_button_me_clicked}
+      layout_properties: {grid_position: 'TBSGEZ,IUBYMK VGIDBU,HIFTQV'}
       name: radio_button_me
       properties: {group_name: regs, spacing_above: none, spacing_below: none, text: Middle East & North Africa}
       type: RadioButton
-    - layout_properties: {grid_position: 'TBSGEZ,IUBYMK OAKGTW,LWQRKF'}
+    - event_bindings: {clicked: radio_button_sa_clicked}
+      layout_properties: {grid_position: 'TBSGEZ,IUBYMK OAKGTW,LWQRKF'}
       name: radio_button_sa
       properties: {group_name: regs, spacing_above: none, spacing_below: none, text: South Asia, tooltip: 'India, Pakistan, Bangladesh'}
       type: RadioButton
-    - layout_properties: {grid_position: 'TBSGEZ,IUBYMK QBLYGN,TAEWCH'}
+    - event_bindings: {clicked: radio_button_la_clicked}
+      layout_properties: {grid_position: 'TBSGEZ,IUBYMK QBLYGN,TAEWCH'}
       name: radio_button_la
       properties: {group_name: regs, spacing_above: none, spacing_below: none, text: Latin America}
       type: RadioButton
-    - layout_properties: {grid_position: 'TBSGEZ,IUBYMK BXTEDV,MALDGL'}
+    - event_bindings: {clicked: radio_button_pa_clicked}
+      layout_properties: {grid_position: 'TBSGEZ,IUBYMK BXTEDV,MALDGL'}
       name: radio_button_pa
       properties: {group_name: regs, spacing_above: none, spacing_below: none, text: Pacific Rim, tooltip: 'Canada, South Korea, Australia, Japan, New Zealand'}
       type: RadioButton
-    - layout_properties: {grid_position: 'TBSGEZ,IUBYMK UJRYGQ,LIMULZ'}
+    - event_bindings: {clicked: radio_button_ec_clicked}
+      layout_properties: {grid_position: 'TBSGEZ,IUBYMK UJRYGQ,LIMULZ'}
       name: radio_button_ec
       properties: {group_name: regs, spacing_above: none, spacing_below: none, text: East Europe and Central Asia}
       type: RadioButton
-    - layout_properties: {grid_position: 'TBSGEZ,IUBYMK RBNUTE,KAQDOD'}
+    - event_bindings: {clicked: radio_button_eu_clicked}
+      layout_properties: {grid_position: 'TBSGEZ,IUBYMK RBNUTE,KAQDOD'}
       name: radio_button_eu
       properties: {group_name: regs, spacing_above: none, spacing_below: none, text: Europe}
       type: RadioButton
@@ -103,7 +111,8 @@ components:
       name: radio_button_fut
       properties: {group_name: tas, text: Future}
       type: RadioButton
-    - layout_properties: {grid_position: 'TBSGEZ,IUBYMK YURGBO,SCWOXK'}
+    - event_bindings: {clicked: radio_button_se_clicked}
+      layout_properties: {grid_position: 'TBSGEZ,IUBYMK YURGBO,SCWOXK'}
       name: radio_button_se
       properties: {group_name: regs, spacing_above: none, spacing_below: none, text: Southeast Asia}
       type: RadioButton
