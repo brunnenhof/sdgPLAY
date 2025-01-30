@@ -26,6 +26,28 @@ class HomePLAY(HomePLAYTemplate):
     
     return game_id, npbhp
 
+  def set_not_played_regions_to_invisible(self, reg):
+    if reg == 'us':
+      self.radio_button_us.visible = False
+    elif reg == 'af':
+      self.radio_button_af.visible = False
+    elif reg == 'cn':
+      self.radio_button_cn.visible = False
+    elif reg == 'me':
+      self.radio_button_me.visible = False
+    elif reg == 'sa':
+      self.radio_button_sa.visible = False
+    elif reg == 'la':
+      self.radio_button_la.visible = False
+    elif reg == 'pa':
+      self.radio_button_pa.visible = False
+    elif reg == 'ec':
+      self.radio_button_ec.visible = False
+    elif reg == 'eu':
+      self.radio_button_eu.visible = False
+    elif reg == 'se':
+      self.radio_button_se.visible = False
+      
   def btn_gameID_ok_click(self, **event_args):
     global game_id_entered
     game_id_entered = self.check_gameID.text
@@ -38,15 +60,11 @@ class HomePLAY(HomePLAYTemplate):
     roles = anvil.server.call('get_roles', game_id_entered)
     self.start_up.visible = False
     self.check_gameID_card.visible = False
-    #print (roles)
-    # get fill_roles .....
-    # self.radio_button_us.enabled = False
-    regions = anvil.server.call('get_regions_for_players', game_id_entered)
+    regions_npbh = anvil.server.call('get_regions_for_players', game_id_entered)
     reg_short, reg_long = anvil.server.call('get_reg_long_names')
-    for i in range(len(regions)):
-      which_reg = regions[i]['region']
-      self.radio_button_af.visible = False
-      
+    for i in range(len(regions_npbh)):
+      jj = regions_npbh[i]['region']
+      self.set_not_played_regions_to_invisible(jj)
     
     """This method is called when the button is clicked"""
     self.take_role_card.visible = True

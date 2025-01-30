@@ -45,10 +45,11 @@ def get_roles_for_a_region(gi, reg):
 
 @anvil.server.callable
 def get_regions_for_players(gi):
+  # return a list of dictionaries with regions NOT played by human players
   conn = connect()
   with conn.cursor() as cur:
     sql = ("select * from `fill_roles` WHERE `game_id` = %s AND `reg_avail` = %s")
-    cur.execute(sql, (gi, 1))
+    cur.execute(sql, (gi, 0))
     return cur.fetchall()
 
 @anvil.server.callable
