@@ -43,3 +43,11 @@ def get_roles_for_a_region(gi, reg):
     cur.execute(sql, (gi, reg))
     return cur.fetchone()
 
+@anvil.server.callable
+def get_regions_for_players(gi, reg):
+  conn = connect()
+  with conn.cursor() as cur:
+    sql = ("select * from `fill_roles` WHERE `game_id` = %s AND `reg_avail` = %s")
+    cur.execute(sql, (gi, 1))
+    return cur.fetchone()
+
