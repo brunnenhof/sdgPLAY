@@ -19,4 +19,12 @@ def get_latest_game():
     cur.execute(sql, (0, 0))
     return cur.fetchone()
 
+@anvil.server.callable
+def get_latest_game():
+  conn = connect()
+  with conn.cursor() as cur:
+    sql = ("select * from `games_info` WHERE `closed` = %s AND `next_step_p` = %s ORDER BY `started_on` DESC LIMIT 1")
+    cur.execute(sql, (0, 0))
+    return cur.fetchone()
+
   
