@@ -64,6 +64,7 @@ class HomePLAY(HomePLAYTemplate):
       elif key == 'future':
         self.radio_button_ineq.visible = ministries[key]
 
+
   
   def radio_button_cn_clicked(self, **event_args):
     global game_id_entered
