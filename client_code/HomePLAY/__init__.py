@@ -42,6 +42,11 @@ class HomePLAY(HomePLAYTemplate):
     # get fill_roles .....
     # self.radio_button_us.enabled = False
     regions = anvil.server.call('get_regions_for_players', game_id_entered)
+    reg_short, reg_long = anvil.server.call('get_reg_long_names')
+    for i in range(len(regions)):
+      which_reg = regions[i]['region']
+      self.radio_button_af.visible = False
+      
     
     """This method is called when the button is clicked"""
     self.take_role_card.visible = True

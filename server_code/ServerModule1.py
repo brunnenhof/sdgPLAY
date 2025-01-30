@@ -44,10 +44,24 @@ def get_roles_for_a_region(gi, reg):
     return cur.fetchone()
 
 @anvil.server.callable
-def get_regions_for_players(gi, reg):
+def get_regions_for_players(gi):
   conn = connect()
   with conn.cursor() as cur:
     sql = ("select * from `fill_roles` WHERE `game_id` = %s AND `reg_avail` = %s")
     cur.execute(sql, (gi, 1))
-    return cur.fetchone()
+    return cur.fetchall()
+
+@anvil.server.callable
+def get_reg_long_names():
+  conn = connect()
+  with conn.cursor() as cur:
+        sql = ("select abbreviation, name from `regions`")
+        cur.execute(sql)
+        rr = cur.fetchall()
+        reg_short = []
+        reg_long = []
+        for i in range(len(rr)):
+            reg_short.append(rr[i]['abbreviation'])
+            reg_long.append(rr[i]['name'])
+  return reg_short, reg_long
 
