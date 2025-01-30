@@ -29,10 +29,20 @@ class HomePLAY(HomePLAYTemplate):
   def btn_gameID_ok_click(self, **event_args):
     game_id_entered = self.check_gameID.text
     games_info = anvil.server.call('get_entered_game', game_id_entered)
+    # TODO
+    # check that game_id_entered has correct format
+    # check that game_id_entered exists
+    # handle both if not
     game_id = games_info['game_id']
+    roles = anvil.server.call('get_roles', game_id_entered)
+    print (roles)
     # get fill_roles .....
     self.radio_button_us.enabled = False
     
     """This method is called when the button is clicked"""
     self.take_role_card.visible = True
-    pass
+
+  def radio_button_cn_clicked(self, game_id_entered, **event_args):
+    """This method is called when this radio button is selected"""
+    ministries = anvil.server.call('get_roles_for_a_region', (game_id_entered, 'cn'))
+    print (ministries)

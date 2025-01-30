@@ -20,11 +20,26 @@ def get_latest_game():
     return cur.fetchone()
 
 @anvil.server.callable
-def get_latest_game():
+def get_entered_game(gi):
   conn = connect()
   with conn.cursor() as cur:
-    sql = ("select * from `games_info` WHERE `closed` = %s AND `next_step_p` = %s ORDER BY `started_on` DESC LIMIT 1")
-    cur.execute(sql, (0, 0))
+    sql = ("select * from `games_info` WHERE `closed` = %s AND `next_step_p` = %s ORDER BY `started_on` AND `game_id` = %s ")
+    cur.execute(sql, (0, 0, gi))
     return cur.fetchone()
 
-  
+@anvil.server.callable
+def get_roles(gi):
+  conn = connect()
+  with conn.cursor() as cur:
+    sql = ("select * from `fill_roles` WHERE `game_id` = %s ")
+    cur.execute(sql, (gi))
+    return cur.fetchall()
+
+@anvil.server.callable
+def get_roles_for_a_region(gi, reg):
+  conn = connect()
+  with conn.cursor() as cur:
+    sql = ("select * from `fill_roles` WHERE `game_id` = %s AND `region` = %s")
+    cur.execute(sql, (gi, reg))
+    return cur.fetchone()
+
