@@ -320,7 +320,6 @@ roles:
   name: body
 - components: [DataGrid]
   name: tonal-data-grid
-- components: [TextBox, TextArea, DatePicker, DropDown]
-  name: outlined-error
+- {components: null, name: outlined-error}
 - components: [TextBox, TextArea, DatePicker, DropDown]
   name: input-error
