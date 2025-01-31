@@ -66,23 +66,45 @@ def get_reg_long_names():
             reg_long.append(rr[i]['name'])
   return reg_short, reg_long
 
+def all_ministries_taken(m):
+  if m['poverty'] == 0:
+    return False
+  if m['inequality'] == 0:
+    return False
+  if m['empowerment'] == 0:
+    return False
+  if m['food'] == 0:
+    return False
+  if m['energy'] == 0:
+    return False
+  if m['future'] == 0:
+    return False
+  return True
+
 @anvil.server.callable
 def save_player_choice(game_id, ministry, region):
-  print (ministry)
-  print (region)
+  if ministry == 'poverty':
+    sql = ("UPDATE fill_roles SET poverty = 1 WHERE game_id = %s AND region = %s")
+  elif ministry == 'inequality':
+    sql = ("UPDATE fill_roles SET inequality = 1 WHERE game_id = %s AND region = %s")
+  elif ministry == 'empowerment':
+    sql = ("UPDATE fill_roles SET empowerment = 1 WHERE game_id = %s AND region = %s")
+  elif ministry == 'food':
+    sql = ("UPDATE fill_roles SET food = 1 WHERE game_id = %s AND region = %s")
+  elif ministry == 'energy':
+    sql = ("UPDATE fill_roles SET energy = 1 WHERE game_id = %s AND region = %s")
+  elif ministry == 'future':
+    sql = ("UPDATE fill_roles SET future = 1 WHERE game_id = %s AND region = %s")
+#  print (ministry)
+#  print (region)
   conn = connect()
   with conn.cursor() as cur:
-#    UPDATE Customers
-#SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
-#WHERE CustomerID = 1;
-        sql = ("UPDATE `fill_roles` SET %s = 1 WHERE `game_id` = %s AND `region` = %s AND %s = %s")
-        cur.execute(sql, (game_id, region, ministry, ministry))
-        cur.commit()
-        sql = ("SELECT * FROM `fill_roles` WHERE `game_id` = %s AND `region`= %s")
-        cur.execute(sql, game_id, region)
-        rr = cur.fetchone()
-        reg_short = []
-        reg_long = []
-
-  
-
+    cur.execute(sql, (game_id, region))
+    conn.commit()
+    sql = ("SELECT * FROM `fill_roles` WHERE `game_id` = %s AND `region`= %s")
+    cur.execute(sql, (game_id, region))
+    all_regs = cur.fetchone()
+    if all_ministries_taken(all_regs):  # set region to not available
+      sql = ("UPDATE fill_roles SET reg_avail = 1 WHERE game_id = %s AND region = %s")
+      cur.execute(sql, (game_id, region))
+      conn.commit()

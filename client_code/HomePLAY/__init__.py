@@ -202,5 +202,10 @@ class HomePLAY(HomePLAYTemplate):
       # save the choices
       which_region = self.region_clicked()
       anvil.server.call('save_player_choice', game_id_entered, which_ministy, which_region)
-      
+      # msg to player with extended GAMEid -xx
+      # check if all roles taken
+      # if yes
+      # handle visibility
+      # go to showing plots & decisions ??? 
+      # and short instructions
     pass
