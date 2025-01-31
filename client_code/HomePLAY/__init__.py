@@ -152,6 +152,9 @@ class HomePLAY(HomePLAYTemplate):
     alert(content = "Ask for the ID of a previous game and go to the state of the game when last played.", 
           title='ToDo', large=True)
 
+  def region_clicked(self):
+    
+
   def minstry_clicked(self):
     if self.rb_poverty.selected:
       return 'poverty'
@@ -176,7 +179,7 @@ class HomePLAY(HomePLAYTemplate):
       alert("You must select one Ministry", role='outlined-error')
     else:
       # save the choices
-      which_region = self.region_click()
+      which_region = self.region_clicked()
       anvil.server.call('save_player_choice', which_ministy, which_region)
       
     pass
