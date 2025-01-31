@@ -153,7 +153,27 @@ class HomePLAY(HomePLAYTemplate):
           title='ToDo', large=True)
 
   def region_clicked(self):
-    
+    if self.radio_button_af.selected:
+      return 'af'
+    if self.radio_button_us.selected:
+      return 'us'
+    if self.radio_button_cn.selected:
+      return 'cn'
+    if self.radio_button_me.selected:
+      return 'me'
+    if self.radio_button_sa.selected:
+      return 'sa'
+    if self.radio_button_la.selected:
+      return 'la'
+    if self.radio_button_pa.selected:
+      return 'pa'
+    if self.radio_button_ec.selected:
+      return 'ec'
+    if self.radio_button_eu.selected:
+      return 'eu'
+    if self.radio_button_se.selected:
+      return 'se'
+    return None
 
   def minstry_clicked(self):
     if self.rb_poverty.selected:
@@ -172,14 +192,15 @@ class HomePLAY(HomePLAYTemplate):
     
   def role_taken_click(self, **event_args):
     """This method is called when the button is clicked"""
+    global game_id_entered
     # check if a role has been taken
     # if not ALERT
     which_ministy = self.minstry_clicked()
-    if which_ministy == None:
+    if which_ministy is None:
       alert("You must select one Ministry", role='outlined-error')
     else:
       # save the choices
       which_region = self.region_clicked()
-      anvil.server.call('save_player_choice', which_ministy, which_region)
+      anvil.server.call('save_player_choice', game_id_entered, which_ministy, which_region)
       
     pass

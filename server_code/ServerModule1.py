@@ -66,3 +66,23 @@ def get_reg_long_names():
             reg_long.append(rr[i]['name'])
   return reg_short, reg_long
 
+@anvil.server.callable
+def save_player_choice(game_id, ministry, region):
+  print (ministry)
+  print (region)
+  conn = connect()
+  with conn.cursor() as cur:
+#    UPDATE Customers
+#SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+#WHERE CustomerID = 1;
+        sql = ("UPDATE `fill_roles` SET %s = 1 WHERE `game_id` = %s AND `region` = %s AND %s = %s")
+        cur.execute(sql, (game_id, region, ministry, ministry))
+        cur.commit()
+        sql = ("SELECT * FROM `fill_roles` WHERE `game_id` = %s AND `region`= %s")
+        cur.execute(sql, game_id, region)
+        rr = cur.fetchone()
+        reg_short = []
+        reg_long = []
+
+  
+
