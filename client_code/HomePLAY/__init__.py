@@ -176,7 +176,7 @@ class HomePLAY(HomePLAYTemplate):
       alert("You must select one Ministry", role='outlined-error')
     else:
       # save the choices
-      which_region = self.region_clicked()
+      which_region = self.region_click()
       anvil.server.call('save_player_choice', which_ministy, which_region)
       
     pass
