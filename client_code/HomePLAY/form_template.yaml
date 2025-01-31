@@ -6,7 +6,8 @@ components:
       name: join_new_game
       properties: {background: 'theme:Secondary Container', bold: true, foreground: 'theme:Primary', role: elevated-button, text: Join a new game}
       type: Button
-    - layout_properties: {grid_position: 'IIJVUA,XYTXVK'}
+    - event_bindings: {click: btn_continue_game_click}
+      layout_properties: {grid_position: 'IIJVUA,XYTXVK'}
       name: btn_continue_game
       properties: {background: 'theme:Secondary Container', bold: true, role: elevated-button, text: Continue a previous game}
       type: Button
@@ -85,31 +86,31 @@ components:
       type: RadioButton
     - layout_properties: {grid_position: 'TBSGEZ,TATGRK MEMJWV,GOKOAD'}
       name: label_radio_ministry
-      properties: {background: 'theme:Tertiary Container', bold: true, foreground: 'theme:Primary', text: '... then select your ministry'}
+      properties: {background: 'theme:Tertiary Container', bold: true, foreground: 'theme:Primary', text: '... then select your ministry', visible: false}
       type: Label
     - layout_properties: {grid_position: 'TBSGEZ,TATGRK TYPBLH,NUJRYD'}
       name: radio_button_pov
-      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Poverty}
+      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Poverty, visible: false}
       type: RadioButton
     - layout_properties: {grid_position: 'TBSGEZ,TATGRK HARLQA,DUKITZ'}
       name: radio_button_ineq
-      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Inequality}
+      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Inequality, visible: false}
       type: RadioButton
     - layout_properties: {grid_position: 'TBSGEZ,TATGRK WQDLXM,HWMYOE'}
       name: radio_button_emp
-      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Empowerment}
+      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Empowerment, visible: false}
       type: RadioButton
     - layout_properties: {grid_position: 'TBSGEZ,TATGRK XKFQIY,WFUPWT'}
       name: radio_button_food
-      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Food and Agriculture}
+      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Food and Agriculture, visible: false}
       type: RadioButton
     - layout_properties: {grid_position: 'TBSGEZ,TATGRK VTZAJG,QAHTYA'}
       name: radio_button_ener
-      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Energy}
+      properties: {group_name: tas, spacing_above: none, spacing_below: none, text: Energy, visible: false}
       type: RadioButton
     - layout_properties: {grid_position: 'TBSGEZ,TATGRK WUYDCG,TJQRVB'}
       name: radio_button_fut
-      properties: {group_name: tas, text: Future}
+      properties: {group_name: tas, text: Future, visible: false}
       type: RadioButton
     - event_bindings: {clicked: radio_button_se_clicked}
       layout_properties: {grid_position: 'TBSGEZ,IUBYMK YURGBO,SCWOXK'}

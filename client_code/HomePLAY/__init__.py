@@ -69,10 +69,8 @@ class HomePLAY(HomePLAYTemplate):
     """This method is called when the button is clicked"""
     self.take_role_card.visible = True
 
-  def radio_button_af_clicked(self, **event_args):
-    global game_id_entered
-    print ('in af btn ' + game_id_entered)
-    """This method is called when this radio button is selected"""
+  def set_ministries_visible(self, game_id_entered, reg):
+    self.take_role_card.radio_label_ministries.visible = True
     ministries = anvil.server.call('get_roles_for_a_region', game_id_entered, 'cn')
     for key in ministries:
       if key == 'empowerment':
@@ -87,8 +85,12 @@ class HomePLAY(HomePLAYTemplate):
         self.radio_button_ineq.visible = ministries[key]
       elif key == 'future':
         self.radio_button_ineq.visible = ministries[key]
-
-
+    
+  def radio_button_af_clicked(self, **event_args):
+    global game_id_entered
+    print ('in af btn ' + game_id_entered)
+    # set all available ministries for af visible
+    self.set_ministries_visible(game_id_entered, 'af')
   
   def radio_button_cn_clicked(self, **event_args):
     global game_id_entered
@@ -167,3 +169,7 @@ class HomePLAY(HomePLAYTemplate):
     """This method is called when this radio button is selected"""
     print ('in se btn ' + game_id_entered)
     pass
+
+  def btn_continue_game_click(self, **event_args):
+    alert(content = "Ask for the ID of a previous game and go to the state of the game when last played.", 
+          title='ToDo', large=True)
