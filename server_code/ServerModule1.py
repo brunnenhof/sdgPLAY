@@ -84,47 +84,38 @@ def all_ministries_taken(m):
 @anvil.server.callable
 def save_player_choice(game_id, ministry, region):
   # qick check if that role is still available  
-  if ministry == 'poverty':
+  if ministry == 'energy':
+    sql = ("SELECT energy FROM fill_roles WHERE game_id = %s AND region = %s")
+    sqls = ("UPDATE fill_roles SET energy = 1 WHERE game_id = %s AND region = %s") # prepare for save
+  elif ministry == 'poverty':
     sql = ("SELECT poverty FROM fill_roles WHERE game_id = %s AND region = %s")
+    sqls = ("UPDATE fill_roles SET poverty = 1 WHERE game_id = %s AND region = %s")  
   elif ministry == 'inequality':
-    sql = ("UPDATE fill_roles SET inequality = 1 WHERE game_id = %s AND region = %s")
-  elif ministry == 'empowerment':
-    sql = ("UPDATE fill_roles SET empowerment = 1 WHERE game_id = %s AND region = %s")
+    sql = ("SELECT inequality FROM fill_roles WHERE game_id = %s AND region = %s")
+    sqls = ("UPDATE fill_roles SET inequality = 1 WHERE game_id = %s AND region = %s")  
   elif ministry == 'food':
-    sql = ("UPDATE fill_roles SET food = 1 WHERE game_id = %s AND region = %s")
-  elif ministry == 'energy':
-    sql = ("UPDATE fill_roles SET energy = 1 WHERE game_id = %s AND region = %s")
+    sql = ("SELECT food FROM fill_roles WHERE game_id = %s AND region = %s")
+    sqls = ("UPDATE fill_roles SET food = 1 WHERE game_id = %s AND region = %s")  
   elif ministry == 'future':
-    sql = ("UPDATE fill_roles SET future = 1 WHERE game_id = %s AND region = %s")
+    sql = ("SELECT future FROM fill_roles WHERE game_id = %s AND region = %s")
+    sqls = ("UPDATE fill_roles SET future = 1 WHERE game_id = %s AND region = %s")  
+  elif ministry == 'empowerment':
+    sql = ("SELECT empowerment FROM fill_roles WHERE game_id = %s AND region = %s")
+    sqls = ("UPDATE fill_roles SET empowerment = 1 WHERE game_id = %s AND region = %s")  
   conn = connect()
   with conn.cursor() as cur:
-    cur.execute(sql, (game_id, region))
+    cur.execute(sql, [game_id, region])
     row = cur.fetchone()
-    
-    conn.commit()
-    sql = ("SELECT * FROM `fill_roles` WHERE `game_id` = %s AND `region`= %s")
-    cur.execute(sql, (game_id, region))
-    all_regs = cur.fetchone()
-
-  
-  if ministry == 'poverty':
-    sql = ("UPDATE fill_roles SET poverty = 1 WHERE game_id = %s AND region = %s")
-  elif ministry == 'inequality':
-    sql = ("UPDATE fill_roles SET inequality = 1 WHERE game_id = %s AND region = %s")
-  elif ministry == 'empowerment':
-    sql = ("UPDATE fill_roles SET empowerment = 1 WHERE game_id = %s AND region = %s")
-  elif ministry == 'food':
-    sql = ("UPDATE fill_roles SET food = 1 WHERE game_id = %s AND region = %s")
-  elif ministry == 'energy':
-    sql = ("UPDATE fill_roles SET energy = 1 WHERE game_id = %s AND region = %s")
-  elif ministry == 'future':
-    sql = ("UPDATE fill_roles SET future = 1 WHERE game_id = %s AND region = %s")
-#  print (ministry)
-#  print (region)
+    if row[ministry] == 1:
+      return False
+# handle False, ie role no longer available in client code
+# we now know that the role is still available, so save it  
   conn = connect()
   with conn.cursor() as cur:
-    cur.execute(sql, (game_id, region))
+    cur.execute(sqls, (game_id, region))
     conn.commit()
+    # now check if setting this role as taken alse means that ALL roles are taken
+    # and the region needs to be set as taken / no longer available
     sql = ("SELECT * FROM `fill_roles` WHERE `game_id` = %s AND `region`= %s")
     cur.execute(sql, (game_id, region))
     all_regs = cur.fetchone()
