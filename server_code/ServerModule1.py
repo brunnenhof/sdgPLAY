@@ -83,6 +83,8 @@ def all_ministries_taken(m):
 
 @anvil.server.callable
 def save_player_choice(game_id, ministry, region):
+  print ('in save_player_choice: ' + region)
+  print ('in save_player_choice: ' + ministry)
   # qick check if that role is still available  
   if ministry == 'energy':
     sql = ("SELECT energy FROM fill_roles WHERE game_id = %s AND region = %s")
@@ -106,6 +108,7 @@ def save_player_choice(game_id, ministry, region):
   with conn.cursor() as cur:
     cur.execute(sql, [game_id, region])
     row = cur.fetchone()
+    print (row)
     if row[ministry] == 1:
       return False
 # handle False, ie role no longer available in client code
@@ -123,3 +126,4 @@ def save_player_choice(game_id, ministry, region):
       sql = ("UPDATE fill_roles SET reg_avail = 1 WHERE game_id = %s AND region = %s")
       cur.execute(sql, (game_id, region))
       conn.commit()
+  return True

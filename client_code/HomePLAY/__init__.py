@@ -74,18 +74,24 @@ class HomePLAY(HomePLAYTemplate):
     self.label_radio_ministry.visible = True
     ministries = anvil.server.call('get_roles_for_a_region', game_id_entered, reg)
     for key in ministries:
+      if ministries[key] == 0:
+        visi = 1
+      elif ministries[key] == 1:
+        visi = 0
+      else:
+        continue
       if key == 'empowerment':
-        self.rb_empowerment.visible = ministries[key]
+        self.rb_empowerment.visible = visi
       elif key == 'poverty':
-        self.rb_poverty.visible = ministries[key]
+        self.rb_poverty.visible = visi
       elif key == 'inequality':
-        self.rb_inequality.visible = ministries[key]
+        self.rb_inequality.visible = visi
       elif key == 'food':
-        self.rb_food.visible = ministries[key]
+        self.rb_food.visible = visi
       elif key == 'energy':
-        self.rb_energy.visible = ministries[key]
+        self.rb_energy.visible = visi
       elif key == 'future':
-        self.rb_future.visible = ministries[key]
+        self.rb_future.visible = visi
     self.role_taken.visible = True
         
   def radio_button_af_clicked(self, **event_args):
@@ -204,10 +210,16 @@ class HomePLAY(HomePLAYTemplate):
       save_ok = anvil.server.call('save_player_choice', game_id_entered, which_ministy, which_region)
       if not save_ok:
         alert("Unfortunately, someone else was quicker and took the role. Please choose another one.")
+        # repaint ministries and regions with the correct choices still available
       else:
-        alert("Congratulations, you are now the Minister for ___ in ___.")
-      # msg to player with extended GAMEid -xx
-      # check if all roles taken
+        which_ministy_long, wmx =
+        which_region_long, wrx =
+        your_game_id = game_id_entered + "-" + str(wrx) + str(wmx)
+        msgid = " Your personal Game ID is " + your_game_id + " Please make a note of it!"
+        msg = ("Congratulations, you have been confirmed as the Minister for " + which_ministy_long + " in " + which_region_long + msgid)
+        alert(msg)
+        self.take_rold_card.visible = False
+        self.round1_instructions.visible = True
       # if yes
       # handle visibility
       # go to showing plots & decisions ??? 

@@ -121,7 +121,7 @@ components:
     - event_bindings: {click: role_taken_click}
       layout_properties: {grid_position: 'HMXVIF,YDKFYJ'}
       name: role_taken
-      properties: {background: 'theme:Secondary Container', bold: true, foreground: 'theme:e4aBlue', role: elevated-button, text: 'When you are done, click this button'}
+      properties: {background: 'theme:Secondary Container', bold: true, foreground: 'theme:e4aBlue', role: elevated-button, text: 'Once you selected one region and one ministry, click this button'}
       type: Button
     layout_properties: {grid_position: 'CQYJPD,EXRAVD'}
     name: take_role_card
