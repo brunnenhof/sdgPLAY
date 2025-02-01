@@ -56,7 +56,7 @@ class HomePLAY(HomePLAYTemplate):
     # check that game_id_entered has correct format
     # check that game_id_entered exists
     # handle both if not
-    game_id = games_info['game_id']
+    game_id_entered = games_info['game_id']
     roles = anvil.server.call('get_roles', game_id_entered)
     self.start_up.visible = False
     self.check_gameID_card.visible = False
@@ -212,4 +212,8 @@ class HomePLAY(HomePLAYTemplate):
       # handle visibility
       # go to showing plots & decisions ??? 
       # and short instructions
+    pass
+
+  def rb_poverty_clicked(self, **event_args):
+    """This method is called when this radio button is selected"""
     pass
