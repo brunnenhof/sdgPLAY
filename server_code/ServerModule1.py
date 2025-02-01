@@ -53,18 +53,27 @@ def get_regions_for_players(gi):
     return cur.fetchall()
 
 @anvil.server.callable
-def get_reg_long_names():
+def get_reg_long_names(which_region):
   conn = connect()
   with conn.cursor() as cur:
-        sql = ("select abbreviation, name from `regions`")
-        cur.execute(sql)
-        rr = cur.fetchall()
-        reg_short = []
-        reg_long = []
-        for i in range(len(rr)):
-            reg_short.append(rr[i]['abbreviation'])
-            reg_long.append(rr[i]['name'])
-  return reg_short, reg_long
+    sql = ("select id, name from `regions` WHERE abbreviation = %s")
+    cur.execute(sql, which_region)
+    row = cur.fetchone()
+    reg_long = row['name']
+    reg_idx = row['id']
+  return reg_idx, reg_long
+
+@anvil.server.callable
+def get_ministry_long(which_ministry):
+  conn = connect()
+  with conn.cursor() as cur:
+    sql = ("select id, longname from `ministries` WHERE ministry = %s")
+    cur.execute(sql, which_ministry)
+    row = cur.fetchone()
+    m_long = row['longname']
+    m_idx = row['id']
+  return m_idx, m_long
+
 
 def all_ministries_taken(m):
   if m['poverty'] == 0:
@@ -123,7 +132,7 @@ def save_player_choice(game_id, ministry, region):
     cur.execute(sql, (game_id, region))
     all_regs = cur.fetchone()
     if all_ministries_taken(all_regs):  # set region to not available
-      sql = ("UPDATE fill_roles SET reg_avail = 1 WHERE game_id = %s AND region = %s")
+      sql = ("UPDATE fill_roles SET reg_avail = 0 WHERE game_id = %s AND region = %s")
       cur.execute(sql, (game_id, region))
       conn.commit()
   return True

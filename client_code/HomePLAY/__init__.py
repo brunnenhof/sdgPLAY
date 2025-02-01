@@ -62,7 +62,6 @@ class HomePLAY(HomePLAYTemplate):
     self.check_gameID_card.visible = False
     self.role_taken.visible = False
     regions_npbh = anvil.server.call('get_regions_for_players', game_id_entered)
-    reg_short, reg_long = anvil.server.call('get_reg_long_names')
     for i in range(len(regions_npbh)):
       jj = regions_npbh[i]['region']
       self.set_not_played_regions_to_invisible(jj)
@@ -212,19 +211,22 @@ class HomePLAY(HomePLAYTemplate):
         alert("Unfortunately, someone else was quicker and took the role. Please choose another one.")
         # repaint ministries and regions with the correct choices still available
       else:
-        which_ministy_long, wmx =
-        which_region_long, wrx =
+        wrx, which_region_long  = anvil.server.call('get_reg_long_names', which_region)
+        wmx, which_ministy_long = anvil.server.call('get_ministry_long', which_ministy)
         your_game_id = game_id_entered + "-" + str(wrx) + str(wmx)
-        msgid = " Your personal Game ID is " + your_game_id + " Please make a note of it!"
-        msg = ("Congratulations, you have been confirmed as the Minister for " + which_ministy_long + " in " + which_region_long + msgid)
+        msgid = "\nYour personal Game ID is:\n" + your_game_id + "\nPlease make a note of it!"
+        msg = ("Congratulations, you have been confirmed as the Minister " + which_ministy_long + " in " + which_region_long + '.' + msgid)
         alert(msg)
         self.take_rold_card.visible = False
         self.round1_instructions.visible = True
-      # if yes
-      # handle visibility
-      # go to showing plots & decisions ??? 
-      # and short instructions
-    pass
+
+# need a card for round1 instructions
+# need a card for graphs for the relevant minister
+# ??? need a card for decisions ???
+# if yes
+# handle visibility
+# go to showing plots & decisions ??? 
+# and short instructions
 
   def rb_poverty_clicked(self, **event_args):
     """This method is called when this radio button is selected"""
