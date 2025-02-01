@@ -203,7 +203,9 @@ class HomePLAY(HomePLAYTemplate):
       which_region = self.region_clicked()
       save_ok = anvil.server.call('save_player_choice', game_id_entered, which_ministy, which_region)
       if not save_ok:
-        
+        alert("Unfortunately, someone else was quicker and took the role. Please choose another one.")
+      else:
+        alert("Congratulations, you are now the Minister for ___ in ___.")
       # msg to player with extended GAMEid -xx
       # check if all roles taken
       # if yes
