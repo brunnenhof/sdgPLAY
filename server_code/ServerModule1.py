@@ -83,6 +83,30 @@ def all_ministries_taken(m):
 
 @anvil.server.callable
 def save_player_choice(game_id, ministry, region):
+  # qick check if that role is still available  
+  if ministry == 'poverty':
+    sql = ("SELECT poverty FROM fill_roles WHERE game_id = %s AND region = %s")
+  elif ministry == 'inequality':
+    sql = ("UPDATE fill_roles SET inequality = 1 WHERE game_id = %s AND region = %s")
+  elif ministry == 'empowerment':
+    sql = ("UPDATE fill_roles SET empowerment = 1 WHERE game_id = %s AND region = %s")
+  elif ministry == 'food':
+    sql = ("UPDATE fill_roles SET food = 1 WHERE game_id = %s AND region = %s")
+  elif ministry == 'energy':
+    sql = ("UPDATE fill_roles SET energy = 1 WHERE game_id = %s AND region = %s")
+  elif ministry == 'future':
+    sql = ("UPDATE fill_roles SET future = 1 WHERE game_id = %s AND region = %s")
+  conn = connect()
+  with conn.cursor() as cur:
+    cur.execute(sql, (game_id, region))
+    row = cur.fetchone()
+    
+    conn.commit()
+    sql = ("SELECT * FROM `fill_roles` WHERE `game_id` = %s AND `region`= %s")
+    cur.execute(sql, (game_id, region))
+    all_regs = cur.fetchone()
+
+  
   if ministry == 'poverty':
     sql = ("UPDATE fill_roles SET poverty = 1 WHERE game_id = %s AND region = %s")
   elif ministry == 'inequality':
