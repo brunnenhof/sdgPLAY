@@ -1,5 +1,6 @@
 from ._anvil_designer import HomePLAYTemplate
 from anvil import *
+import plotly.graph_objects as go
 import anvil.server
 
 
