@@ -1,5 +1,11 @@
 import anvil.server
 import pymysql
+import pandas as pd
+import pickle
+import random
+import time
+import ftplib
+from ftplib import FTP, all_errors
 
 def connect():
   connection = pymysql.connect(host='w014f358.kasserver.com',
@@ -10,6 +16,23 @@ def connect():
                                charset='utf8mb4',
                                cursorclass=pymysql.cursors.DictCursor)
   return connection
+
+@anvil.server.callable
+def get_play_pkl():
+  start_time = time.time()
+  # Connect and login at once
+  with FTP(host='w014f358.kasserver.com', user='w014f358', passwd='GUTEt9AVZQoR') as ftp:
+    ftp.pwd()  # Usually default is /
+    ftp.cwd('filesforgame')  # Change to `other_dir/`
+    # For binary use `retrbinary()`
+#    with open('fcol_in_mdf2.json', 'wb') as local_file:
+#        ftp.retrbinary('RETR fcol_in_mdf.json', local_file.write)
+    # For binary use `retrbinary()`
+    with open('play.pkl', 'wb') as local_mdfpd:
+      ftp.retrbinary('RETR play.pkl', local_mdfpd.write)
+    unpickled_df = pd.read_pickle("play.pkl")
+    print("--- %s seconds ---" % (time.time() - start_time))
+    return unpickled_df
 
 @anvil.server.callable
 def get_latest_game():
