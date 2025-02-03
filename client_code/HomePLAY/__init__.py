@@ -210,7 +210,7 @@ class HomePLAY(HomePLAYTemplate):
       save_ok = anvil.server.call('save_player_choice', game_id_entered, which_ministy, which_region)
       if not save_ok:
         alert("Unfortunately, someone else was quicker and took the role. Please choose another one.")
-        # repaint ministries and regions with the correct choices still available
+        # TODO refresh ministries and regions with the correct choices still available
       else:
         wrx, which_region_long  = anvil.server.call('get_reg_long_names', which_region)
         wmx, which_ministy_long = anvil.server.call('get_ministry_long', which_ministy)
