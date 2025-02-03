@@ -219,6 +219,8 @@ class HomePLAY(HomePLAYTemplate):
         self.choose_role.visible = False
         self.card_info_round1.visible = True
         self.card_for_plots.visible = True
+        anvil.server.call('load_plots', which_region, which_ministy)
+        a = 2
 
 # need a card for graphs for the relevant minister
 # ??? need a card for decisions ???

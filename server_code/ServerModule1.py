@@ -6,6 +6,7 @@ import random
 import time
 import ftplib
 from ftplib import FTP, all_errors
+import string
 
 def connect():
   connection = pymysql.connect(host='w014f358.kasserver.com',
@@ -35,6 +36,7 @@ def get_play_pkl():
     return unpickled_df
 
 def get_reg_x_name_colx(acro):
+  # get index, name, colorhex from region-abbreviation
   conn = connect()
   with conn.cursor() as cur:
     sql = ("select * from `regions` WHERE `abbreviation` = %s")
@@ -44,13 +46,27 @@ def get_reg_x_name_colx(acro):
     # return index, name, colorhex
     return cur.fetchone()
 
+def get_all_vars_for_ta(ta):
+  # get entire row for plotting from ta
+  ta = ta.lower()
+  conn = connect()
+  with conn.cursor() as cur:
+    sql = ("select * from `sdgvars` WHERE `ta` = %s")
+    cur.execute(sql, (ta))
+    row = cur.fetchall()
+    print (row)
+    # return index, name, colorhex
+    return cur.fetchall()
+
 def create_single_plot():
   pass
-  
+
+@anvil.server.callable
 def load_plots(region, single_ta):
   # region as 'nn' single ta as 'poverty', etc
   my_time = time.localtime()
   my_time_formatted = time.strftime("%a %d %b %G, %H:%M", my_time)
+  foot1 = 'mov240906 mppy GAME e4a 10reg.mdl'
   cap = foot1 + ' on ' + my_time_formatted
   mdf = get_play_pkl()
   num_rows, num_cols = mdf.shape
@@ -60,66 +76,69 @@ def load_plots(region, single_ta):
   print(region + '  ' + long)
   print('    ' + single_ta)
 # get the names of all vars in the current TA / Ministry
-  vars_info_l = vars_df[vars_df['ta'] == single_ta]
-  for i in range(len(vars_info_l)):
+  vars_info_l = get_all_vars_for_ta(single_ta)
+  title = 'test title'
+  sub = 'test subtile'
+  fig = 'test fig'
+  return title, sub, fig, cap
+#  for i in range(len(vars_info_l)):
     # name of the vensim variable
-    var_l = vars_info_l.iloc[i,3]
-    time.sleep(1)
-    sdg_name = vars_info_l.iloc[i,1]
-    sdg_idx = vars_info_l.iloc[i,0]
-    varx_list = vars_df.index[vars_df['modelvariable'] == var_l].tolist()
-    varx = varx_list[0] # make an integer
-    print('        ', var_l, ' ', str(varx))
-    if varx in[18, 20, 34]: # global variable
-        var_l = var_l.replace(" ", "_")
-        idx = fcol_in_mdf[var_l]
-        dfv = mdf[:, idx]
-        dfv = dfv[0:end_rowi-1]
+#    var_l = vars_info_l.iloc[i,3]
+#    sdg_name = vars_info_l.iloc[i,1]
+#    sdg_idx = vars_info_l.iloc[i,0]
+#    varx_list = vars_df.index[vars_df['modelvariable'] == var_l].tolist()
+#    varx = varx_list[0] # make an integer
+#    print('        ', var_l, ' ', str(varx))
+#    if varx in[18, 20, 34]: # global variable
+#        var_l = var_l.replace(" ", "_")
+#        idx = fcol_in_mdf[var_l]
+#        dfv = mdf[:, idx]
+#        dfv = dfv[0:end_rowi-1]
     # Define a dictionary containing Students data
-        dfvpd = pd.DataFrame(dfv, columns=['glob'])
-        dfvpd = dfvpd * vars_df.iloc[varx, 12]
-        yr = np.arange(1990, end_yr, 0.03125)
-        dfvpd.insert(loc=0, column='yr', value=yr)
-        yr_py_int = np.int_(yr_py)
-        pvt = np.full((lx, 1), np.nan)  # placeholder for year points
-        for i in range(lx):
-            idx = max(1, yr_py_int.item(i))
-            pvt[i] = dfvpd.iloc[idx-1, 1]
-            fn = folder + region + '-' + str(varx) + '-' + single_ta + '.png'
-            plot_glob_ta_pol(dfvpd, pvt, varx, fn)
-    else: # regional variable
+#        dfvpd = pd.DataFrame(dfv, columns=['glob'])
+#        dfvpd = dfvpd * vars_df.iloc[varx, 12]
+#        yr = np.arange(1990, end_yr, 0.03125)
+#        dfvpd.insert(loc=0, column='yr', value=yr)
+#        yr_py_int = np.int_(yr_py)
+#        pvt = np.full((lx, 1), np.nan)  # placeholder for year points
+#        for i in range(lx):
+#            idx = max(1, yr_py_int.item(i))
+#            pvt[i] = dfvpd.iloc[idx-1, 1]
+#            fn = folder + region + '-' + str(varx) + '-' + single_ta + '.png'
+#            plot_glob_ta_pol(dfvpd, pvt, varx, fn)
+#    else: # regional variable
     # vensim uses underscores not whitespace in variable name
-        var_l = var_l.replace(" ", "_")
+#        var_l = var_l.replace(" ", "_")
         # find location of variable in mdf
-        idx = fcol_in_mdf[var_l]
+#        idx = fcol_in_mdf[var_l]
         # get the slice with all regional data for the variable
-        dfv = mdf[:, idx:idx + 10]
+#        dfv = mdf[:, idx:idx + 10]
         # get the slice of rows
-        dfv = dfv[0:end_rowi - 1, :]
+#        dfv = dfv[0:end_rowi - 1, :]
         # make a pd dataframe
-        dfvpd = pd.DataFrame(dfv, columns=my_lab)
+#        dfvpd = pd.DataFrame(dfv, columns=my_lab)
         # scale
-        dfvpd = dfvpd * vars_df.iloc[varx, 12]
-        # slice out the correct region column
-        dfvpd = pd.DataFrame(dfvpd.iloc[:, regidx])
+#        dfvpd = dfvpd * vars_df.iloc[varx, 12]
+        # slice out the correct region column#
+#        dfvpd = pd.DataFrame(dfvpd.iloc[:, regidx])
         # make a colum with correct time data
-        yr = np.arange(1990, end_yr, 0.03125)
+#        yr = np.arange(1990, end_yr, 0.03125)
         # put the time in slot 0
-        dfvpd.insert(loc=0, column='yr', value=yr)
+#        dfvpd.insert(loc=0, column='yr', value=yr)
         # fig = px.line(d3,x='yr',y='cn')
         # fig.show()
         # prepare the data for the years with thick dots
-        yr_py_int = np.int_(yr_py)
-        pvt = np.full((lx, 1), np.nan)  # placeholder for year points
-        for i in range(lx):
-            idx = max(1, yr_py_int.item(i))
-            pvt[i] = dfvpd.iloc[idx-1, 1]
+#        yr_py_int = np.int_(yr_py)
+#        pvt = np.full((lx, 1), np.nan)  # placeholder for year points
+#        for i in range(lx):
+#            idx = max(1, yr_py_int.item(i))
+#            pvt[i] = dfvpd.iloc[idx-1, 1]
         # prepare the correct filename
-        lfn = region + '-' + str(varx) + '-' + single_ta + '.png'
-        fn = os.path.join(cwd, folder, lfn)
+#        lfn = region + '-' + str(varx) + '-' + single_ta + '.png'
+#        fn = os.path.join(cwd, folder, lfn)
         # send for plotting
 #        plot_each_reg_ta_pol(dfvpd, pvt, varx, fn)
-        plot_each_reg_ta_pol2(dfvpd, pvt, varx, fn)
+#        plot_each_reg_ta_pol2(dfvpd, pvt, varx, fn)
 
   pass
   
