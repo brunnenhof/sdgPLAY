@@ -34,7 +34,92 @@ def get_play_pkl():
     print("--- %s seconds ---" % (time.time() - start_time))
     return unpickled_df
 
-def load_plots():
+def get_reg_x_name_colx(acro):
+  conn = connect()
+  with conn.cursor() as cur:
+    sql = ("select * from `regions` WHERE `abbreviation` = %s")
+    cur.execute(sql, (acro))
+    row = cur.fetchone()
+    print (row)
+    # return index, name, colorhex
+    return cur.fetchone()
+
+def create_single_plot():
+  pass
+  
+def load_plots(region, single_ta):
+  # region as 'nn' single ta as 'poverty', etc
+  my_time = time.localtime()
+  my_time_formatted = time.strftime("%a %d %b %G, %H:%M", my_time)
+  cap = foot1 + ' on ' + my_time_formatted
+  mdf = get_play_pkl()
+  num_rows, num_cols = mdf.shape
+# drop first 10 years from 1980 to 1990 to get the spin-up wrinkles out
+  mdf = mdf[321:num_rows, :]
+  regidx, long, farbe = get_reg_x_name_colx(region)
+  print(region + '  ' + long)
+  print('    ' + single_ta)
+# get the names of all vars in the current TA / Ministry
+  vars_info_l = vars_df[vars_df['ta'] == single_ta]
+  for i in range(len(vars_info_l)):
+    # name of the vensim variable
+    var_l = vars_info_l.iloc[i,3]
+    time.sleep(1)
+    sdg_name = vars_info_l.iloc[i,1]
+    sdg_idx = vars_info_l.iloc[i,0]
+    varx_list = vars_df.index[vars_df['modelvariable'] == var_l].tolist()
+    varx = varx_list[0] # make an integer
+    print('        ', var_l, ' ', str(varx))
+    if varx in[18, 20, 34]: # global variable
+        var_l = var_l.replace(" ", "_")
+        idx = fcol_in_mdf[var_l]
+        dfv = mdf[:, idx]
+        dfv = dfv[0:end_rowi-1]
+    # Define a dictionary containing Students data
+        dfvpd = pd.DataFrame(dfv, columns=['glob'])
+        dfvpd = dfvpd * vars_df.iloc[varx, 12]
+        yr = np.arange(1990, end_yr, 0.03125)
+        dfvpd.insert(loc=0, column='yr', value=yr)
+        yr_py_int = np.int_(yr_py)
+        pvt = np.full((lx, 1), np.nan)  # placeholder for year points
+        for i in range(lx):
+            idx = max(1, yr_py_int.item(i))
+            pvt[i] = dfvpd.iloc[idx-1, 1]
+            fn = folder + region + '-' + str(varx) + '-' + single_ta + '.png'
+            plot_glob_ta_pol(dfvpd, pvt, varx, fn)
+    else: # regional variable
+    # vensim uses underscores not whitespace in variable name
+        var_l = var_l.replace(" ", "_")
+        # find location of variable in mdf
+        idx = fcol_in_mdf[var_l]
+        # get the slice with all regional data for the variable
+        dfv = mdf[:, idx:idx + 10]
+        # get the slice of rows
+        dfv = dfv[0:end_rowi - 1, :]
+        # make a pd dataframe
+        dfvpd = pd.DataFrame(dfv, columns=my_lab)
+        # scale
+        dfvpd = dfvpd * vars_df.iloc[varx, 12]
+        # slice out the correct region column
+        dfvpd = pd.DataFrame(dfvpd.iloc[:, regidx])
+        # make a colum with correct time data
+        yr = np.arange(1990, end_yr, 0.03125)
+        # put the time in slot 0
+        dfvpd.insert(loc=0, column='yr', value=yr)
+        # fig = px.line(d3,x='yr',y='cn')
+        # fig.show()
+        # prepare the data for the years with thick dots
+        yr_py_int = np.int_(yr_py)
+        pvt = np.full((lx, 1), np.nan)  # placeholder for year points
+        for i in range(lx):
+            idx = max(1, yr_py_int.item(i))
+            pvt[i] = dfvpd.iloc[idx-1, 1]
+        # prepare the correct filename
+        lfn = region + '-' + str(varx) + '-' + single_ta + '.png'
+        fn = os.path.join(cwd, folder, lfn)
+        # send for plotting
+#        plot_each_reg_ta_pol(dfvpd, pvt, varx, fn)
+        plot_each_reg_ta_pol2(dfvpd, pvt, varx, fn)
 
   pass
   
