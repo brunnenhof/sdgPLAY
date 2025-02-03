@@ -132,7 +132,7 @@ components:
       name: rich_text_1
       properties:
         align: center
-        content: "You are responsible to better the lives of your people. In the graphs below things are good if the line is in the **green** zone, if they are in the **red** zone, you need to worry - social unrest is just around the corner!\nStudy all your indicators, see how they develop over the years, discuss \nwith colleagues, first in your region, but also in the other regions.\nWhen you are ready, scroll down to the decisions you need to take as minister that hopefully improve the lives of your citizens in the next round."
+        content: "You are responsible to better the lives of your people. In the graphs below things are good if the line is in the **green** zone, if they are in the **red** zone, you need to worry - social unrest, and worse, is just around the corner!\nStudy all your indicators, see how they develop over the years, discuss \nwith colleagues, first in your region, but also in the other regions.\nWhen you are ready, scroll down to the decisions you need to take as minister that hopefully improve the lives of your citizens in the next round."
         spacing:
           margin: ['2', null, '2', null]
           padding: ['2', null, '2', null]

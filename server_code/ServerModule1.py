@@ -34,6 +34,8 @@ def get_play_pkl():
     print("--- %s seconds ---" % (time.time() - start_time))
     return unpickled_df
 
+    
+
 @anvil.server.callable
 def get_latest_game():
   conn = connect()

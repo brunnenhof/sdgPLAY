@@ -10,3 +10,5 @@ class PlotPanel(PlotPanelTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+    

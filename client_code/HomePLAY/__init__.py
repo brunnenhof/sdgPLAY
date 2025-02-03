@@ -220,8 +220,8 @@ class HomePLAY(HomePLAYTemplate):
         alert(msg)
         self.take_rold_card.visible = False
         self.round1_instructions.visible = True
+        self.card_for_plots = True
 
-# need a card for round1 instructions
 # need a card for graphs for the relevant minister
 # ??? need a card for decisions ???
 # if yes
