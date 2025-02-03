@@ -218,9 +218,10 @@ class HomePLAY(HomePLAYTemplate):
         msgid = "\nYour personal Game ID is:\n" + your_game_id + "\nPlease make a note of it!"
         msg = ("Congratulations, you have been confirmed as the Minister " + which_ministy_long + " in " + which_region_long + '.' + msgid)
         alert(msg)
-        self.take_rold_card.visible = False
-        self.round1_instructions.visible = True
-        self.card_for_plots = True
+        self.choose_role.visible = False
+        self.round
+        self.content_panel.round1_instructions.visible = True
+        self.content_panel.card_for_plots = True
 
 # need a card for graphs for the relevant minister
 # ??? need a card for decisions ???
