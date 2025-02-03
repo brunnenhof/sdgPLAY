@@ -68,7 +68,7 @@ class HomePLAY(HomePLAYTemplate):
       self.set_not_played_regions_to_invisible(jj)
     
     """This method is called when the button is clicked"""
-    self.take_role_card.visible = True
+    self.choose_role.visible = True
 
   def set_ministries_visible(self, game_id_entered, reg):
     self.label_radio_ministry.visible = True
@@ -219,9 +219,8 @@ class HomePLAY(HomePLAYTemplate):
         msg = ("Congratulations, you have been confirmed as the Minister " + which_ministy_long + " in " + which_region_long + '.' + msgid)
         alert(msg)
         self.choose_role.visible = False
-        self.round
-        self.content_panel.round1_instructions.visible = True
-        self.content_panel.card_for_plots = True
+        self.card_info_round1.visible = True
+        self.card_for_plots.visible = True
 
 # need a card for graphs for the relevant minister
 # ??? need a card for decisions ???
