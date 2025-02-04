@@ -1,3 +1,2 @@
 PyMySQL
-numpy
-pandas
+numpy._core.numeric

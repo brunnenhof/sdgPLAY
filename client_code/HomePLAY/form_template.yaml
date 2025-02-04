@@ -132,11 +132,11 @@ components:
       - data_bindings: []
         layout_properties: {grid_position: 'FLNFIU,DBMRIM'}
         name: region_label
-        properties: {align: right, background: 'theme:Tertiary Container', bold: true, font_size: 16, foreground: 'theme:Primary', text: 'region label:'}
+        properties: {align: center, background: 'theme:Tertiary Container', bold: true, font_size: 16, foreground: 'theme:Primary', text: 'region label:'}
         type: Label
       - layout_properties: {grid_position: 'FLNFIU,OJFPPW'}
         name: minister_label
-        properties: {background: 'theme:Secondary Container', bold: true, font_size: 16, foreground: 'theme:Primary', text: minister role}
+        properties: {align: center, background: 'theme:Secondary Container', bold: true, font_size: 16, foreground: 'theme:Primary', text: minister role}
         type: Label
       layout_properties: {grid_position: 'IPGCDR,PCRRWX'}
       name: column_panel_1

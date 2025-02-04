@@ -219,7 +219,9 @@ class HomePLAY(HomePLAYTemplate):
         self.choose_role.visible = False
         self.card_info_round1.visible = True
         self.card_for_plots.visible = True
-        
+        self.region_label.text = which_region_long
+        temp = 'Minister ' + which_ministy_long
+        self.minister_label.text = temp
         anvil.server.call('load_plots', which_region, which_ministy)
         a = 2
 
