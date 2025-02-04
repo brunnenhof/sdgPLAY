@@ -9,6 +9,7 @@ import time
 import ftplib
 from ftplib import FTP, all_errors
 import string
+import anvil.media
 
 def connect():
   connection = pymysql.connect(host='w014f358.kasserver.com',
@@ -33,7 +34,9 @@ def get_play_pkl():
     # For binary use `retrbinary()`
     with open('play.pkl', 'wb') as local_mdfpd:
       ftp.retrbinary('RETR play.pkl', local_mdfpd.write)
-    unpickled_df = pd.read_pickle("play.pkl")
+    with anvil.media.TempFile(local_mdfpd) as filename:
+      unpickled_df = pd.read_pickle(filename')
+#    unpickled_df = pd.read_pickle("play.pkl")
     print("--- %s seconds ---" % (time.time() - start_time))
     return unpickled_df
 
