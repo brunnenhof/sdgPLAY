@@ -1,5 +1,3 @@
-import anvil.google.auth, anvil.google.drive, anvil.google.mail
-from anvil.google.drive import app_files
 import anvil.server
 import pymysql
 import pandas as pd
@@ -10,6 +8,7 @@ import ftplib
 from ftplib import FTP, all_errors
 import string
 import anvil.media
+import io
 
 def connect():
   connection = pymysql.connect(host='w014f358.kasserver.com',
@@ -32,13 +31,32 @@ def get_play_pkl():
 #    with open('fcol_in_mdf2.json', 'wb') as local_file:
 #        ftp.retrbinary('RETR fcol_in_mdf.json', local_file.write)
     # For binary use `retrbinary()`
-    with open('play.pkl', 'wb') as local_mdfpd:
-      ftp.retrbinary('RETR play.pkl', local_mdfpd.write)
-    with anvil.media.TempFile(local_mdfpd) as filename:
-      unpickled_df = pd.read_pickle(filename')
-#    unpickled_df = pd.read_pickle("play.pkl")
+    with open('play.pkl', 'wb') as server_mdfpd:
+      ftp.retrbinary('RETR play.pkl', server_mdfpd.write)
+    print (server_mdfpd)
+    with open("play.pkl", "rb") as file:
+      unpickled_df = pd.read_pickle(file)
     print("--- %s seconds ---" % (time.time() - start_time))
     return unpickled_df
+
+# Warning, untested code!
+#@anvil.server.callable
+#def uplink_download(media):
+    # Convert to a regular file
+#    with anvil.media.TempFile(media_object) as file_name:
+        # Treat file_name as a normal file:
+#        with open(file_name, 'rb') as f:
+#            cv = pickle.load(f)
+
+# Warning, untested code!
+#import io
+#@anvil.server.callable#
+#def uplink_download(media):
+    # Convert to a regular file
+#    buffer = io.BytesIO(media.get_bytes())
+#    buffer.seek(0)
+#    cv = pickle.load(buffer)
+
 
 def get_reg_x_name_colx(acro):
   # get index, name, colorhex from region-abbreviation

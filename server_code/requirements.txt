@@ -1,2 +1,1 @@
 PyMySQL
-numpy._core.numeric
